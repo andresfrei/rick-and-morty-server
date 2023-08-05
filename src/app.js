@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(multer({ dest: filesStoage }).single('csv'))
 
 // Routes
-app.use('/', require('./routes'))
+app.use('/', require('./routes/index.router'))
 
 app.listen(port, () => {
   console.log(`Server up in port ${port}`)
