@@ -1,4 +1,4 @@
-const { findCharacter, allCharacters } = require('../services/character.service')
+const { findCharacterService, allCharacters } = require('../services/character.service')
 
 const getAllCharacters = (_req, res) => {
   const characters = allCharacters()
@@ -7,7 +7,7 @@ const getAllCharacters = (_req, res) => {
 
 const getCharacter = async (req, res) => {
   const { id } = req.params
-  const character = await findCharacter(id)
+  const character = await findCharacterService(id)
 
   return character
     ? res.status(200).send(character)

@@ -10,6 +10,10 @@ const loginUser = async (req, res) => {
   }
 }
 
+const logOutUser = (req, res) => {
+
+}
+
 const registerUser = async (req, res) => {
   const { body } = req
   try {
@@ -41,4 +45,4 @@ const resendValidationUser = async (req, res) => {
   }
 }
 
-module.exports = { loginUser, registerUser, validateUser, resendValidationUser }
+module.exports = { loginUser, registerUser, validateUser, resendValidationUser, logOutUser }

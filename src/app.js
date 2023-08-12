@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: false }))
 // app.use(multer({ dest: filesStoage }).single('csv'))
 
 // Routes
-app.use('/', require('./routes/index.router'))
+app.use('/api', require('./routes/index.router'))
 
 // Database
 const sequelize = require('./database')
