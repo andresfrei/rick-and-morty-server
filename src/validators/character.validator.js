@@ -1,16 +1,22 @@
-const Validator = require('../tools/classValidator')
+const Validator = require('../libs/classValidator')
 
 const validateId = (req, res, next) => {
+  const errors = []
   const { id } = req.params
 
   const validate = new Validator('id', id)
   validate.isNumber()
-  validate.isMin(1)
-  validate.isMax(826) /// Límite API
+  validate.isRange(1, 826) /// Límite API
 
-  validate.isValidate()
-    ? next()
-    : res.status(400).send({ errors: [validate.errorMessage()] })
+  !validate.isValidate() && errors.push(validate.errorMessage())
+
+  /* const email = new Validator('email', 'sdfsfsf')
+  email.isEmail()
+  !email.isValidate() && errors.push(email.errorMessage())
+ */
+
+  // validate.resolve(res, next)
+  return validate.isValidate() ? next() : res.status(400).send(errors)
 }
 
 module.exports = { validateId }

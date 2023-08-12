@@ -1,3 +1,5 @@
+const { validateToken } = require('./handleToken')
+
 class Validator {
   constructor (fieldName, value) {
     this.field = fieldName
@@ -5,9 +7,21 @@ class Validator {
     this._errors = []
   }
 
+  isRequired () {
+    const res = !!this.value || this.value === 0
+    !res && this._errors.push('It is required')
+    return res
+  }
+
   isNumber () {
     const res = !isNaN(Number(this.value))
     !res && this._errors.push('Not a number')
+    return res
+  }
+
+  isString () {
+    const res = typeof this.value === 'string'
+    !res && this._errors.push('Not a string')
     return res
   }
 
@@ -30,8 +44,10 @@ class Validator {
     return res
   }
 
-  isValidate () {
-    return this._errors.length === 0
+  isRange (min, max) {
+    const res = this.value >= min && this.value <= max
+    !res && this._errors.push(`The value is out of the range ${min} and ${max}`)
+    return res
   }
 
   isContainsLetters () {
@@ -56,7 +72,8 @@ class Validator {
   }
 
   isLongMin (long) {
-    const res = this.value.length >= long
+    const isText = typeof this.value === 'string'
+    const res = isText && this.value.length >= long
     !res && this._errors.push(`Minimum length of ${long} characters`)
     return res
   }
@@ -68,12 +85,28 @@ class Validator {
     return res
   }
 
+  notEmpty () {
+    const res = !!this.value
+    !res && this._errors.push('The value cannot be empty')
+    return res
+  }
+
+  isValidate () {
+    return this._errors.length === 0
+  }
+
   errorMessage () {
     return {
       field: this.field,
       value: this.value,
       message: this._errors
     }
+  }
+
+  resolve (res, next) {
+    this.isValidate()
+      ? next()
+      : res.status(400).json(this.errorMessage())
   }
 }
 

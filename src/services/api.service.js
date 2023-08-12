@@ -9,7 +9,7 @@ const findCharacterApi = async (id) => {
       status: data.status,
       species: data.species,
       gender: data.gender,
-      origin: data.origin,
+      origin: data.origin.name,
       image: data.image
     }
     return character

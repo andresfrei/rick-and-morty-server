@@ -1,7 +1,8 @@
 const { findCharacter, allCharacters } = require('../services/character.service')
 
 const getAllCharacters = (_req, res) => {
-  res.status(200).send(allCharacters)
+  const characters = allCharacters()
+  res.status(200).send(characters)
 }
 
 const getCharacter = async (req, res) => {
