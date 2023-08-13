@@ -63,11 +63,11 @@ const resendValidate = (req, res, next) => {
   validate.resolve(res, next)
 }
 
-const validateBearToken = async (req, res, next) => {
-  const { authorization } = req.headers
-  const token = authorization.split(' ')[1]
-  let user = null
+/* const validateBearToken = async (req, res, next) => {
   try {
+    const { authorization } = req.headers
+    const token = authorization.split(' ')[1]
+    let user = null
     const session = await validateToken(token)
     if (session?.idUser) user = await findUserValuesSrvice('id', session.idUser)
     if (user?.status > 0) {
@@ -77,9 +77,8 @@ const validateBearToken = async (req, res, next) => {
       res.status(401).json({ message: 'INVALID_TOKEN' })
     }
   } catch (error) {
-    console.log(error.message)
     res.status(401).json({ message: 'INVALID_TOKEN' })
   }
-}
+} */
 
-module.exports = { loginValidator, registerValidator, validateTokenParam, resendValidate, validateBearToken }
+module.exports = { loginValidator, registerValidator, validateTokenParam, resendValidate }

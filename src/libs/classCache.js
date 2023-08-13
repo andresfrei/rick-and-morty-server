@@ -16,7 +16,7 @@ class Cache {
   }
 
   clear () {
-    this.items = []
+    this.items = {}
   }
 }
 
