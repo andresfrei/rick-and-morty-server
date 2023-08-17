@@ -1,13 +1,15 @@
 const { validateToken } = require('../libs/handleToken')
-const { findUserValuesSrvice } = require('../services/user.service')
+const { validateSessionService } = require('../services/auth.service')
 
 const validateBearToken = async (req, res, next) => {
-  const { authorization } = req.headers
-  const token = authorization.split(' ')[1]
-  let user = null
   try {
-    const session = await validateToken(token)
-    if (session?.idUser) user = await findUserValuesSrvice('id', session.idUser)
+    let token = null
+    let user = null
+    let session = null
+    const { authorization } = req.headers
+    if (authorization) token = authorization.split(' ')[1]
+    if (token) session = validateToken(token)
+    if (session) user = await validateSessionService(session)
     if (user?.status > 0) {
       req.session = session
       next()

@@ -1,14 +1,18 @@
-const { findCharacterService, allCharacters } = require('../services/character.service')
+const { findAllCharacters, findOneCharacter } = require('../services/character.service')
 
-const getAllCharacters = (_req, res) => {
-  const characters = allCharacters()
-  res.status(200).send(characters)
+const getAllCharacters = async (_req, res) => {
+  try {
+    const characters = await findAllCharacters()
+    res.status(200).send(characters)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
 }
 
 const getCharacter = async (req, res) => {
   try {
     const { id } = req.params
-    const character = await findCharacterService(id)
+    const character = await findOneCharacter(id)
     return character
       ? res.status(200).send(character)
       : res.status(404).send({ message: 'NOT_FOUND' })

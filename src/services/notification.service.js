@@ -2,9 +2,8 @@ const { createToken } = require('../libs/handleToken')
 
 const sendNotificationUserValidate = (user) => {
   const { id, email } = user
-  createToken({ idUser: id })
-    .then(token => console.log(token))
-    .catch(error => console.log(error.message))
+  const token = createToken({ idUser: id })
+  console.log(token)
   console.log('Send mail to :' + email) //! PENDIENTE
 }
 

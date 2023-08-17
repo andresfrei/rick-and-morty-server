@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize')
-const sequelize = require('../database')
+const { sequelize } = require('../database')
 
 class Collection extends Model {}
 
@@ -9,9 +9,18 @@ Collection.init({
     primaryKey: true,
     autoIncrement: true
   },
+  idUser: {
+    type: DataTypes.INTEGER,
+    require: true
+  },
+  idCharacter: {
+    type: DataTypes.INTEGER,
+    require: true
+  },
   favorite: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+    require: true
   }
 }, {
   sequelize,

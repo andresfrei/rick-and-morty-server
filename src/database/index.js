@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize')
+// const User = require('../models/user.model')
 
 const database = process.env.DB_DATABASE
 const userName = process.env.DB_USERNAME
@@ -16,4 +17,24 @@ const sequelize = new Sequelize(database, userName, password, {
   }
 })
 
-module.exports = sequelize
+const connectionDatabase = (force) => {
+  //! planetscale no permite foreignKey
+  /* const Character = require('../models/character.model')
+  const Collection = require('../models/collection.model')
+
+  Character.hasMany(Collection, {
+    foreignKey: {
+      name: 'idCharacter',
+      allowNull: false
+    },
+    onDelete: 'CASCADE'
+  })
+
+  Collection.belongsTo(Character, { foreignKey: 'idCharacter' }) */
+
+  sequelize.sync(force)
+    .then(() => console.log('db is conected'))
+    .catch(error => console.error('Unable to connect to the database', error.message))
+}
+
+module.exports = { sequelize, connectionDatabase }

@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize')
-const sequelize = require('../database')
+const { sequelize } = require('../database')
 
 class Character extends Model {}
 
@@ -16,6 +16,7 @@ Character.init({
   image: { type: DataTypes.STRING }
 }, {
   sequelize,
+  timestamps: false,
   modelName: 'character'
 })
 

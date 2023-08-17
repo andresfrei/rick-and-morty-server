@@ -1,6 +1,5 @@
 const Validator = require('../libs/classValidator')
 const { validateToken } = require('../libs/handleToken')
-const { findUserValuesSrvice } = require('../services/user.service')
 
 const loginValidator = (req, res, next) => {
   const errors = []
@@ -48,7 +47,7 @@ const registerValidator = (req, res, next) => {
 const validateTokenParam = async (req, res, next) => {
   const { token } = req.params
   try {
-    const session = await validateToken(token)
+    const session = validateToken(token)
     req.session = session
     next()
   } catch (error) {
