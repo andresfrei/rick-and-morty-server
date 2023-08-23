@@ -23,7 +23,8 @@ const loguotController = (req, res) => {
 const authController = async (req, res) => {
   try {
     const { idUser } = req.session
-    const user = await loginById(idUser)
+    const { collection } = req.query
+    const user = await loginById(idUser, { cache: true, collection })
     return res.status(200).json(user)
   } catch (error) {
     res.status(500).json({ message: error.message })

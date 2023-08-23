@@ -1,10 +1,15 @@
 const path = require('path')
 const express = require('express')
 const cors = require('cors')
-// const morgan = require('morgan')
 // const multer = require('multer')
 
 const server = express()
+
+// Development Environment
+if (process.env.DEV) {
+  const morgan = require('morgan')
+  server.use(morgan('dev'))
+}
 
 // const filesStoage = path.join(__dirname, 'storege')
 const pathViews = path.join(__dirname, 'views')
@@ -18,7 +23,6 @@ server.set('view engine', 'pug')
 server.use(cors())
 server.use(express.json())
 // server.use(express.static(pathPublic))
-// server.use(morgan('dev'))
 server.use(express.urlencoded({ extended: true }))
 // server.use(multer({ dest: filesStoage }).single('csv'))
 

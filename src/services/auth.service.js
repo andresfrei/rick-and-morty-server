@@ -2,6 +2,7 @@ const { createToken } = require('../libs/handleToken')
 const { sendNotificationUserValidate } = require('./notification.service')
 const { findUser, createUser, findUserData } = require('./user.service')
 const Cache = require('../libs/classCache')
+const { findAllService } = require('./collection.service')
 
 const cacheSessions = new Cache() // Cacheo de sessiones
 
@@ -16,18 +17,29 @@ const loginService = async ({ email, password }) => {
   return { user: { id, name, email, status }, token }
 }
 
-const loginById = async (id, cache = true) => {
+const loginById = async (idUser, options) => {
+  const { cache, collection } = options
   let user
-  if (cache) user = cacheSessions.findItem(id)
-  if (user) return user
+  let userCollection
+  let session
 
-  user = await findUserData({ id })
-  if (!user) throw new Error('USER_NOT_FOUND')
-  if (user.status === 0) throw new Error('USER_REQUIRE_VALIDATE')
+  if (cache) user = cacheSessions.findItem(idUser)
+
+  if (!user) {
+    user = await findUserData({ id: idUser })
+    if (!user) throw new Error('USER_NOT_FOUND')
+    if (user.status === 0) throw new Error('USER_REQUIRE_VALIDATE')
+  }
+
+  if (collection) userCollection = await findAllService(idUser)
 
   const { name, status, email } = user
-  cacheSessions.addItem(id, { id, name, status, email })
-  return { id, name, email, status }
+  cacheSessions.addItem(idUser, { id: idUser, name, status, email })
+
+  session = { id: idUser, name, email, status }
+  if (collection) session = { ...session, collection: userCollection }
+
+  return session
 }
 
 const registerService = async (data) => {

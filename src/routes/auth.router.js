@@ -18,9 +18,9 @@ const {
 
 const router = express.Router()
 
+router.post('/:token', validateTokenParam, authController)
 router.post('/login', loginValidator, loginController)
 router.post('/logout', loginValidator, loguotController)
-router.post('/session/:token', validateTokenParam, authController)
 router.post('/register', registerValidator, registerController)
 router.post('/validate/:token', validateTokenParam, userValidationController)
 router.post('/resend/:email', resendValidate, sendEmailController)
